@@ -1,26 +1,35 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Multiplicaciones Divertidas Mejoradas</title>
-  <style>
-    body { font-family: 'Arial', sans-serif; background: #fefefe; padding: 20px; text-align: center; }
-    .contenedor { max-width: 600px; margin: auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    .pregunta { font-size: 24px; margin: 20px 0; }
-    input[type="number"] { font-size: 24px; width: 100px; text-align: center; }
-    button { font-size: 18px; padding: 10px 20px; margin-top: 15px; }
-    .mensaje, .explicacion { margin-top: 15px; font-size: 18px; }
-    .explicacion { font-style: italic; color: #444; }
-    .barra { width: 100%; height: 20px; background: #ddd; border-radius: 10px; overflow: hidden; margin: 20px 0; }
-    .progreso { height: 100%; background: #76c7c0; width: 0%; transition: width 0.3s; }
-    .estrella { font-size: 28px; color: gold; }
-    .bloques { font-size: 16px; margin-top: 10px; }
-    .reto, .inversa { background: #f9f9f9; padding: 10px; border-radius: 8px; margin-top: 15px; font-size: 16px; }
-  </style>
+  <link rel="stylesheet" href="style.css" />
+<link rel="manifest" href="manifest.json">
+<script>
+if ("serviceWorker" in navigator) {
+ navigator.serviceWorker.register("serviceWorker.js");
+}
+</script>
 </head>
-<body>
+<body onload="adaptarEstilo()">
+<script>
+function adaptarEstilo() {
+  const genero = localStorage.getItem("genero");
+  const nombre = localStorage.getItem("nombre") || "Estudiante";
+  document.querySelector("h1").innerText = "¡Hola " + nombre + "! Vamos a multiplicar";
+
+  if (genero === "niña") {
+    document.body.style.background = "#ffe0f0";
+    document.querySelector(".contenedor").style.borderColor = "#f7a1c4";
+    document.querySelector(".progreso").style.background = "#f77ab3";
+  } else {
+    document.body.style.background = "#e0f7fa";
+    document.querySelector(".contenedor").style.borderColor = "#76c7c0";
+    document.querySelector(".progreso").style.background = "#76c7c0";
+  }
+}
+</script>
   <div class="contenedor">
     <h1>Multiplicaciones Divertidas con Recompensas</h1>
     <div class="barra"><div id="progreso" class="progreso"></div></div>
@@ -34,69 +43,11 @@
     <div class="reto" id="reto"></div>
     <div class="inversa" id="inversa"></div>
   </div>
-  <script>
-    let nivel = 0;
-    let contador = 0;
-    let correctas = 0;
-    const explicaciones = {
-      0: [
-        "Todo número multiplicado por 0 da 0.",
-        "Piensa en tener 0 bolsas con caramelos, ¿cuántos tienes? ¡0!",
-        "0 borra cualquier número en la multiplicación.",
-        "No importa cuán grande sea el número, si lo multiplicas por 0, desaparece.",
-        "0 es el ninja de las multiplicaciones: entra y nadie lo ve."
-      ],
-      1: [
-        "Multiplicar por 1 no cambia el número.",
-        "1 es como un espejo, refleja el número.",
-        "Piensa en tener 1 paquete con 4 galletas. ¡Tienes 4!",
-        "1 es el clonador básico: da lo mismo que recibe.",
-        "1 × algo = ese algo sin cambiar."
-      ],
-    };
-
-    function nuevaPregunta() {
-      if (nivel > 12) { document.getElementById("mensaje").innerText = "¡Felicidades! Terminaste todos los niveles."; return; }
-      const factor = nivel;
-      const otro = Math.floor(Math.random() * 13);
-      document.getElementById("pregunta").innerText = `${factor} × ${otro} = ?`;
-      document.getElementById("pregunta").setAttribute("data-respuesta", factor * otro);
-      document.getElementById("explicacion").innerText = explicaciones[nivel]?.[contador] || "";
-      document.getElementById("visual").innerText = "🧱 ".repeat(factor) + " × " + "🧱 ".repeat(otro);
-      document.getElementById("reto").innerText = `¿Tiene lógica que ${factor} × ${otro} = ${factor * otro + 1}?`;
-      document.getElementById("inversa").innerText = `¿Qué número multiplicado por ${factor} da ${factor * otro}?`;
-    }
-
-    function verificar() {
-      const respuestaUsuario = parseInt(document.getElementById("respuesta").value);
-      const respuestaCorrecta = parseInt(document.getElementById("pregunta").getAttribute("data-respuesta"));
-      const mensaje = document.getElementById("mensaje");
-      if (respuestaUsuario === respuestaCorrecta) {
-        mensaje.innerText = "¡Correcto! Bien hecho 🎉";
-        correctas++;
-        contador++;
-        actualizarProgreso();
-        if (contador >= 5) {
-          nivel++;
-          contador = 0;
-          mensaje.innerText += ` ¡Subiste al nivel ${nivel}!`;
-        }
-        nuevaPregunta();
-      } else {
-        mensaje.innerText = "Ups, intenta otra vez.";
-      }
-      document.getElementById("respuesta").value = "";
-    }
-
-    function actualizarProgreso() {
-      const total = (nivel * 5 + contador);
-      const progreso = (total / 65) * 100;
-      document.getElementById("progreso").style.width = progreso + "%";
-      const estrellas = Math.min(5, Math.floor(total / 13));
-      document.getElementById("estrellas").innerText = "⭐".repeat(estrellas) + "☆".repeat(5 - estrellas);
-    }
-
-    nuevaPregunta();
-  </script>
+  <audio id="sonidoCorrecto" src="assets/correcto.mp3" preload="auto"></audio>
+  <audio id="sonidoError" src="assets/error.mp3" preload="auto"></audio>
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+<canvas id="confetti-canvas" style="position: fixed; top: 0; left: 0; pointer-events: none; width: 100%; height: 100%; z-index: 999;"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </body>
 </html>

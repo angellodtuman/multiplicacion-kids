@@ -1,0 +1,15 @@
+
+body { font-family: 'Arial', sans-serif; background: #fefefe; padding: 20px; text-align: center; }
+.contenedor { max-width: 600px; margin: auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+.pregunta { font-size: 24px; margin: 20px 0; }
+input[type="number"] { font-size: 24px; width: 100px; text-align: center; }
+button { font-size: 18px; padding: 10px 20px; margin-top: 15px; }
+.mensaje, .explicacion { margin-top: 15px; font-size: 18px; }
+.explicacion { font-style: italic; color: #444; }
+.barra { width: 100%; height: 20px; background: #ddd; border-radius: 10px; overflow: hidden; margin: 20px 0; }
+.progreso { height: 100%; background: #76c7c0; width: 0%; transition: width 0.3s; }
+.estrella { font-size: 28px; color: gold; }
+.bloques { font-size: 16px; margin-top: 10px; }
+.reto, .inversa { background: #f9f9f9; padding: 10px; border-radius: 8px; margin-top: 15px; font-size: 16px; }
+.correcto { background-color: #c8f7c5; }
+.incorrecto { background-color: #f8d7da; }

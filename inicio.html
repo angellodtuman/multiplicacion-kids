@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bienvenido</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #76c7c0, #fefefe);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .formulario {
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    input, select, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 18px;
+    }
+    h1 { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <div class="formulario">
+    <h1>Bienvenido a Multiplicaciones Divertidas</h1>
+    <input type="text" id="nombre" placeholder="Tu nombre" />
+    <select id="genero">
+      <option value="">Selecciona</option>
+      <option value="niño">Niño</option>
+      <option value="niña">Niña</option>
+    </select><br/>
+    <button onclick="iniciarJuego()">Comenzar</button>
+  </div>
+  <script>
+    function iniciarJuego() {
+      const nombre = document.getElementById("nombre").value.trim();
+      const genero = document.getElementById("genero").value;
+      if (!nombre || !genero) {
+        alert("Por favor, ingresa tu nombre y selecciona si eres niño o niña.");
+        return;
+      }
+      localStorage.setItem("nombre", nombre);
+      localStorage.setItem("genero", genero);
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
